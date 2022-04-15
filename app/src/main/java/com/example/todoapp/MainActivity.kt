@@ -29,6 +29,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //初期表示
+        getText()
+
         //テスト用のテキスト表示
         val testtext1 = findViewById<TextView>(R.id.textView)
         //recyclerView紐づけ
@@ -57,7 +60,8 @@ class MainActivity : AppCompatActivity() {
 
                     //送信するリクエストを指定
                     val jsonSendData="{\"ToDoId\":"+viewHolder.adapterPosition+"}"
-                    ConnectAPI("UpdateToDo",jsonSendData)
+                    val API=APIConnect()
+                    API.ConnectAPI("UpdateToDo",jsonSendData)
                     getText()
                 }
             })
@@ -67,79 +71,30 @@ class MainActivity : AppCompatActivity() {
 
     //Addボタン押下時の処理　※テスト用に作成したため修正の余地あり
     fun AddText(view: View) {
-
-        //ここに”Add”ボタン用の処理を書く
-        val testtext1 = findViewById<TextView>(R.id.textView)
-        testtext1.text="動作しています"
-
-        getText()
-
-        //Log.d("MainActivity","DebugTest")
-
-        //呼び出すAPIの種類を選択
-        val ApiOpp="UpdateToDo"
+        val AddText=findViewById<TextView>(R.id.addText)
         //送信するリクエストを指定
-        val jsonSendData="{\"ToDoId\":0}"
+        val jsonSendData="{\"ToDoText\":\""+AddText.text+"\"}"
         //APIを呼び出すメソッドを実行
-        ConnectAPI(ApiOpp,jsonSendData)
+        val API=APIConnect()
+        API.ConnectAPI("AddtextToDo",jsonSendData)
+        getText()
 
     }
 
-    //POST通信でAPIの呼び出しを行うメソッド　※現在テスト中
-    fun ConnectAPI(ApiOpp:String,jsonSendData:String):String{
-        //OkHttpを呼び出し
-        val client=OkHttpClient()
-        // CountDownLatchを呼び出し
-        val latch = CountDownLatch(1)
-        //送信するURLのベース　この末尾に各操作（Get,Add,Delete,Update）を付け加える
-        val baseUrl="http://192.168.1.120/ToDoApi KS/api/"
-        //引数のApiOppをつなげて各操作（Get,Add,Delete,Update）を決める
-        val url=baseUrl+ApiOpp
-        //メディアタイプの指定
-        val jsonMedia:MediaType="application/json; charset=utf-8".toMediaType()
-        //送信するJSONデータの指定(リクエスト文)　ここでは一旦空文字
-        val jsonData=jsonSendData
-        //テスト用テキストビュー
-        val testtext3 = findViewById<TextView>(R.id.textView3)
-        //返ってくるレスポンスを初期化（空文字）
-        var responseBody ="空"
+    //Getボタン押下時の処理　
+    fun GetTest(view: View) {
+        getText()
 
-        //リクエスト送信
-        val request:Request=Request.Builder().url(url).post(jsonData.toRequestBody(jsonMedia)).build()
-
-        client.newCall(request).enqueue(object :Callback{
-            //レスポンスがうまく帰ってきたとき
-            override fun onResponse(call: Call, response: Response) {
-                //レスポンスの情報を文字列変数に格納
-                responseBody=response.body?.string().orEmpty()
-                //テスト用表示
-                testtext3.text = responseBody
-                //非同期での通信のためスレッドを待機させる
-                latch.countDown()
-            }
-            //レスポンスがうまく帰ってこなかったとき
-            override fun onFailure(call: Call, e: IOException) {
-                testtext3.text=e.toString()
-                //非同期での通信のためスレッドを待機させる
-                latch.countDown()
-            }
-        })
-        try {
-            //スレッドで割り込みが発生しないかぎり、ラッチのカウントダウンがゼロになるまで 現在のスレッドを待機させる。
-            latch.await()
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
-
-        return responseBody
+        val API=APIConnect()
+        //API.ConnectAPITest("AddtextToDo","{\"ToDoText\":\"Test\"}")
     }
 
     //文字列をビューに表示
     fun getText() {
-
+        val API=APIConnect()
         //ConnectAPIのメソッドをGetで実行した返り値をresponseとする
         //以下Get実行メソッド
-        val response=ConnectAPI("GetToDo","")
+        val response=API.ConnectAPI("GetToDo","")
 
         val ToDoText: Array<String?>
         val ToDoStatus: Array<String?>
@@ -188,6 +143,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+/*
 //RecyclerViewクラス
 internal class MyAdapter     //リストに表示するデータを受け取る
     (  //リストに表示する文字列データの定義
@@ -242,7 +198,26 @@ internal class MyAdapter     //リストに表示するデータを受け取る
 
             //ここにAPIでDeletetextの処理を書く
 
-            holder.todotext.text ="ボタンが押下された"
+            //送信するリクエストを指定
+            val jsonSendData="{\"ToDoId\":"+position+"}"
+            //APIを呼び出すメソッドを実行
+            val ma=APIConnect()
+            try {
+                ma.ConnectAPI("DeletetextToDo",jsonSendData)
+                //ma.getText() //これはできない
+                holder.todotext.text =position.toString()
+
+            }
+            catch(e: Exception){
+                // スタックトレースを文字列にします。
+                val stringWriter = StringWriter()
+                e.printStackTrace(PrintWriter(stringWriter))
+                val stackTrace = stringWriter.toString()
+                //val testtext2 = findViewById<TextView>(R.id.textView2)
+                //testtext2.text = stackTrace
+                holder.todotext.text =stackTrace
+
+            }
         }
     }
 
@@ -251,3 +226,5 @@ internal class MyAdapter     //リストに表示するデータを受け取る
         return myDataset.size
     }
 }
+
+ */
