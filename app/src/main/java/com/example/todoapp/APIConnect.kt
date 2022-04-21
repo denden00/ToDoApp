@@ -5,6 +5,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.util.concurrent.CountDownLatch
+import com.example.todoapp.MainActivity
 
 class APIConnect {
     //POST通信でAPIの呼び出しを行うメソッド　※現在テスト中
@@ -96,8 +97,6 @@ class APIConnect {
         try {
             //スレッドで割り込みが発生しないかぎり、ラッチのカウントダウンがゼロになるまで 現在のスレッドを待機させる。
             latch.await()
-            val ma=MainActivity()
-            ma.getText()
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }

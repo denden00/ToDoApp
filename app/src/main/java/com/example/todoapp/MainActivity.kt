@@ -12,13 +12,14 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 class MainActivity : AppCompatActivity() {
-    private var instance: MainActivity? = null
+    //private var instance: MainActivity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         //Mainからメソッドを呼び出すときのお試し
-        instance=this
+        //instance=this
+
         //初期表示
         getText()
 
@@ -132,7 +133,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*
     fun getInstance(): MainActivity? { //インスタンスを取得
         return instance
     }
+
+     */
 }
