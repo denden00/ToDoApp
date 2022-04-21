@@ -3,6 +3,7 @@ package com.example.todoapp
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,13 +64,34 @@ class MainActivity : AppCompatActivity() {
     //Addボタン押下時の処理　※テスト用に作成したため修正の余地あり
     fun AddText(view: View) {
         val AddText=findViewById<TextView>(R.id.addText)
-        //送信するリクエストを指定
-        val jsonSendData="{\"ToDoText\":\""+AddText.text+"\"}"
-        //APIを呼び出すメソッドを実行
-        val API=APIConnect()
-        API.ConnectAPI("AddtextToDo",jsonSendData)
-        getText()
 
+        if(AddText.text.length==0){
+            AlertAddText("文字を入力してください")
+        }
+        else if(AddText.text.length>30){
+            AlertAddText("30文字以内で入力してください")
+        }
+
+        else {
+            //送信するリクエストを指定
+            val jsonSendData = "{\"ToDoText\":\"" + AddText.text + "\"}"
+            //APIを呼び出すメソッドを実行
+            val API = APIConnect()
+            API.ConnectAPI("AddtextToDo", jsonSendData)
+            getText()
+            AddText.setText("")
+        }
+    }
+
+    //文字数チェック
+    fun AlertAddText(AlertText: String){
+            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+                .setTitle("警告")
+                .setMessage(AlertText)
+                .setPositiveButton("OK", { dialog, which ->
+                    // TODO:Yesが押された時の挙動
+                })
+                .show()
     }
 
     //Getボタン押下時の処理　
