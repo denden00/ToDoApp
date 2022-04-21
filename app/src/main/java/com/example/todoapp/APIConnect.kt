@@ -15,7 +15,7 @@ class APIConnect {
         // CountDownLatchを呼び出し
         val latch = CountDownLatch(1)
         //送信するURLのベース　この末尾に各操作（Get,Add,Delete,Update）を付け加える
-        val baseUrl="http://192.168.1.120/ToDoApi KS/api/"
+        val baseUrl="http://18.237.22.176/ToDoApi_ver2/api/"
         //引数のApiOppをつなげて各操作（Get,Add,Delete,Update）を決める
         val url=baseUrl+ApiOpp
         //メディアタイプの指定
@@ -62,7 +62,7 @@ class APIConnect {
         // CountDownLatchを呼び出し
         val latch = CountDownLatch(1)
         //送信するURLのベース　この末尾に各操作（Get,Add,Delete,Update）を付け加える
-        val baseUrl="http://192.168.1.120/ToDoApi KS/api/"
+        val baseUrl="http://18.237.22.176/ToDoApi_ver2/api/"
         //引数のApiOppをつなげて各操作（Get,Add,Delete,Update）を決める
         val url=baseUrl+ApiOpp
         //メディアタイプの指定
