@@ -1,5 +1,6 @@
 package com.example.todoapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
@@ -12,14 +13,14 @@ import org.json.JSONObject
 import java.io.PrintWriter
 import java.io.StringWriter
 
+
 class MainActivity : AppCompatActivity() {
     //private var instance: MainActivity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Mainからメソッドを呼び出すときのお試し
-        //instance=this
+
 
         //初期表示
         getText()
@@ -145,6 +146,14 @@ class MainActivity : AppCompatActivity() {
             //アダプタをビューにセットして一覧表示
             recyclerView.adapter = mAdapter
 
+            (mAdapter as MyAdapter).setOnItemClickListener(View.OnClickListener {
+                fun onClick(view: View) {
+                    val line: Int = (mAdapter as MyAdapter).getLine() //ここでm_lineの値を取得
+                    //line行をデリート後、getText
+                }
+            })
+
+
         } catch (e: Exception) {
             // スタックトレースを文字列にします。
             val stringWriter = StringWriter()
@@ -154,6 +163,7 @@ class MainActivity : AppCompatActivity() {
             testtext2.text = stackTrace
         }
     }
+
 
     /*
     fun getInstance(): MainActivity? { //インスタンスを取得

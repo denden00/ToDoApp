@@ -57,6 +57,7 @@ class APIConnect {
     }
 
     fun ConnectAPITest(ApiOpp:String,jsonSendData:String){
+        /*
         //OkHttpを呼び出し
         val client= OkHttpClient()
         // CountDownLatchを呼び出し
@@ -100,6 +101,12 @@ class APIConnect {
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
-
+         */
+        try {
+            MainActivity().getText()
+        }
+        catch (e:Exception){
+            System.out.println(e)
+        }
     }
 }
