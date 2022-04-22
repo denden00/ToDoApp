@@ -8,17 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import java.io.PrintWriter
+import java.io.StringWriter
 
 internal class MyAdapter     //リストに表示するデータを受け取る
     (  //リストに表示する文字列データの定義
-    private val myDataset: Array<String?>
+    private val myDataset: MutableList<String>
     //リストに表示するステータスの定義
-    ,private val Statusset : Array<String?>
+    ,private val Statusset : MutableList<String>
 ) :
     RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-
-    var m_line = 0
-    lateinit var m_listener:View.OnClickListener
 
     //一行分の View を保持する目的の内部クラス
     class MyViewHolder(var view: View) : RecyclerView.ViewHolder(
@@ -46,10 +45,6 @@ internal class MyAdapter     //リストに表示するデータを受け取る
         return MyViewHolder(view)
     }
 
-    fun setOnItemClickListener(listener: View.OnClickListener) {
-        m_listener = listener
-    }
-
     //ViewHolder にデータをバインド　※メインには登場しない
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.todotext.text = myDataset[position]
@@ -68,46 +63,33 @@ internal class MyAdapter     //リストに表示するデータを受け取る
 
         //×ボタン押下時の処理　あとで完成させる（API接続完了後）
         holder.closebutton.setOnClickListener(View.OnClickListener() {
-
-            fun onClick(view:View) {
-                m_line = position; //行数を登録
-                m_listener.onClick(view); //登録した直後にMainのOnClickを呼び出す
-            }
-
             //ここにAPIでDeletetextの処理を書く
-            /*
+
             //送信するリクエストを指定
             val jsonSendData = "{\"ToDoId\":" + position + "}"
             //APIを呼び出すメソッドを実行
             //val ma = APIConnect()
             try {
                 APIConnect().ConnectAPI("DeletetextToDo", jsonSendData)
-                //MainActivity().getText() //これはできない
-                holder.todotext.text = position.toString()
+                //holder.todotext.text = position.toString()
+
+                //RecyclerViewの表示（SQLではない）
+                myDataset.removeAt(position)
+                notifyDataSetChanged()
 
             } catch (e: Exception) {
                 // スタックトレースを文字列にします。
                 val stringWriter = StringWriter()
                 e.printStackTrace(PrintWriter(stringWriter))
                 val stackTrace = stringWriter.toString()
-                //val testtext2 = findViewById<TextView>(R.id.textView2)
-                //testtext2.text = stackTrace
                 holder.todotext.text = stackTrace
             }
-             */
-
         })
-
-
     }
 
     //表示するリストの件数（行数）を返す　※メインには登場しない
     override fun getItemCount(): Int {
         return myDataset.size
-    }
-
-    fun getLine(): Int {
-        return m_line //行数を取得
     }
 
 }

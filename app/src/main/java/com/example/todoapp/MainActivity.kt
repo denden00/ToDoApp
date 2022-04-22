@@ -110,8 +110,8 @@ class MainActivity : AppCompatActivity() {
         //以下Get実行メソッド
         val response=API.ConnectAPI("GetToDo","")
 
-        val ToDoText: Array<String?>
-        val ToDoStatus: Array<String?>
+        val ToDoText= mutableListOf<String>()
+        val ToDoStatus= mutableListOf<String>()
 
         try {
             //受け取ったJSON形式の文字列をJSONオブジェクトに格納
@@ -122,16 +122,16 @@ class MainActivity : AppCompatActivity() {
             //GetToDoListの行数をカウント
             val rowCount = ToDoListArray.length()
             //ToDoText配列を大きさ[rowCount]で初期化
-            ToDoText = arrayOfNulls(rowCount)
-            ToDoStatus = arrayOfNulls(rowCount)
+            //ToDoText = arrayOfNulls(rowCount)
+            //ToDoStatus = arrayOfNulls(rowCount)
 
             //ToDoTextのデータのみで配列を作成（IdとStatusは表示させないため）
             for (i in 0 until rowCount) {
                 val ToDoTextObj = ToDoListArray.getJSONObject(i)
                 //ToDoTextを配列に格納
-                ToDoText[i] = ToDoTextObj.getString("ToDoText")
+                ToDoText.add(ToDoTextObj.getString("ToDoText"))
                 //ToDoStatusを配列に格納
-                ToDoStatus[i] = ToDoTextObj.getString("ToDoStatus")
+                ToDoStatus.add(ToDoTextObj.getString("ToDoStatus"))
             }
 
             //recyclerViewの初期化　レイアウト上のrecyclerViewと紐づけ
@@ -146,13 +146,6 @@ class MainActivity : AppCompatActivity() {
             //アダプタをビューにセットして一覧表示
             recyclerView.adapter = mAdapter
 
-            (mAdapter as MyAdapter).setOnItemClickListener(View.OnClickListener {
-                fun onClick(view: View) {
-                    val line: Int = (mAdapter as MyAdapter).getLine() //ここでm_lineの値を取得
-                    //line行をデリート後、getText
-                }
-            })
-
 
         } catch (e: Exception) {
             // スタックトレースを文字列にします。
@@ -164,11 +157,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    /*
-    fun getInstance(): MainActivity? { //インスタンスを取得
-        return instance
-    }
-
-     */
 }
