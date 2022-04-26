@@ -20,13 +20,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
-
         //初期表示
         getText()
 
-        //テスト用のテキスト表示
-        val testtext1 = findViewById<TextView>(R.id.textView)
         //recyclerView紐づけ
         val recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
 
@@ -46,15 +42,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    testtext1.text = viewHolder.adapterPosition.toString()
-
-                    //ここにAPIでUPDATEの処理を書く
                     //引き渡す引数はInt型のviewHolder.adapterPosition
-
                     //送信するリクエストを指定
                     val jsonSendData="{\"ToDoId\":"+viewHolder.adapterPosition+"}"
                     val API=APIConnect()
                     API.ConnectAPI("UpdateToDo",jsonSendData)
+                    //Update実行後Get実行
                     getText()
                 }
             })
@@ -62,10 +55,10 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
-    //Addボタン押下時の処理　※テスト用に作成したため修正の余地あり
+    //Addボタン押下時の処理
     fun AddText(view: View) {
+        //紐づけ
         val AddText=findViewById<TextView>(R.id.addText)
-
         if(AddText.text.length==0){
             AlertAddText("文字を入力してください")
         }
@@ -80,13 +73,14 @@ class MainActivity : AppCompatActivity() {
             val API = APIConnect()
             API.ConnectAPI("AddtextToDo", jsonSendData)
             getText()
+            //editTextボックス内クリア
             AddText.setText("")
         }
     }
 
     //文字数チェック
     fun AlertAddText(AlertText: String){
-            AlertDialog.Builder(this) // FragmentではActivityを取得して生成
+            AlertDialog.Builder(this)
                 .setTitle("警告")
                 .setMessage(AlertText)
                 .setPositiveButton("OK", { dialog, which ->
@@ -95,22 +89,15 @@ class MainActivity : AppCompatActivity() {
                 .show()
     }
 
-    //Getボタン押下時の処理　
-    fun GetTest(view: View) {
-        getText()
-
-        val API=APIConnect()
-        //API.ConnectAPITest("AddtextToDo","{\"ToDoText\":\"Test\"}")
-    }
-
     //文字列をビューに表示
     fun getText() {
         val API=APIConnect()
         //ConnectAPIのメソッドをGetで実行した返り値をresponseとする
         //以下Get実行メソッド
         val response=API.ConnectAPI("GetToDo","")
-
+        //ToDoText個別リスト
         val ToDoText= mutableListOf<String>()
+        //ToDoStatus個別リスト
         val ToDoStatus= mutableListOf<String>()
 
         try {
@@ -121,16 +108,13 @@ class MainActivity : AppCompatActivity() {
 
             //GetToDoListの行数をカウント
             val rowCount = ToDoListArray.length()
-            //ToDoText配列を大きさ[rowCount]で初期化
-            //ToDoText = arrayOfNulls(rowCount)
-            //ToDoStatus = arrayOfNulls(rowCount)
 
-            //ToDoTextのデータのみで配列を作成（IdとStatusは表示させないため）
+            //ToDoTextとToDoStatusのデータでそれぞれのリストを作成
             for (i in 0 until rowCount) {
                 val ToDoTextObj = ToDoListArray.getJSONObject(i)
-                //ToDoTextを配列に格納
+                //ToDoTextをリストに追加
                 ToDoText.add(ToDoTextObj.getString("ToDoText"))
-                //ToDoStatusを配列に格納
+                //ToDoStatusをリストに追加
                 ToDoStatus.add(ToDoTextObj.getString("ToDoStatus"))
             }
 
@@ -146,14 +130,12 @@ class MainActivity : AppCompatActivity() {
             //アダプタをビューにセットして一覧表示
             recyclerView.adapter = mAdapter
 
-
         } catch (e: Exception) {
             // スタックトレースを文字列にします。
             val stringWriter = StringWriter()
             e.printStackTrace(PrintWriter(stringWriter))
             val stackTrace = stringWriter.toString()
-            val testtext2 = findViewById<TextView>(R.id.textView2)
-            testtext2.text = stackTrace
+            println(stackTrace)
         }
     }
 

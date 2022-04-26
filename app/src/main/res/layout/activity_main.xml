@@ -6,76 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="400dp"
-        android:layout_height="127dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:inputType="textMultiLine|textImeMultiLine"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/addText"
-        android:layout_width="195dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="83dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:onClick="AddText"
-        android:text="Add"
-        app:layout_constraintStart_toEndOf="@+id/addText"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="384dp"
-        android:layout_height="246dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="391dp"
+        android:layout_height="584dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addText" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="140dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+    </androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="387dp"
-        android:layout_height="148dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:inputType="textMultiLine|textImeMultiLine"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:onClick="GetTest"
-        android:text="Get"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/addText"
+            android:layout_width="272dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:imeOptions="actionDone"
+            android:hint="文字を入力してください" />
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="108dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="5dp"
+            android:onClick="AddText"
+            android:shadowColor="#E91E63"
+            android:text="Add" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

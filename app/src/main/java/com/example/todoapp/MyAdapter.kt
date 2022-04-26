@@ -23,33 +23,27 @@ internal class MyAdapter     //リストに表示するデータを受け取る
     class MyViewHolder(var view: View) : RecyclerView.ViewHolder(
         view
     ) {
-
         val todotext: TextView
         val closebutton: ImageButton
-
         //TextViewを引数として受け取りセットするコンストラクタ
         init {
-            //public MyViewHolder(TextView v) {
+            //テキストボックス
             todotext = view.findViewById(R.id.LayouttextView)
-            //todotext.textSize=30f
+            //×ボタン
             closebutton = view.findViewById(R.id.closeButton)
         }
     }
 
-    //１行分の ViewHolder を組み立てて返す ※メインには登場しない　ここが怪しい
+    //１行分の ViewHolder を組み立てて返す
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context)
-            .inflate(R.layout.row_main, parent, false) //追加用
-        //val v = TextView(parent.context) おそらく不要
-
+            .inflate(R.layout.row_main, parent, false)
         return MyViewHolder(view)
     }
 
-    //ViewHolder にデータをバインド　※メインには登場しない
+    //ViewHolder にデータをバインド
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.todotext.text = myDataset[position]
-        //holder.closebutton.setImageResource(R.id.closeButton) todotextにより画像が変わるわけではないのでバインド不要と思われる
-
 
         //ステータスが”完了”の場合、グレーアウト＆取り消し線付与
         if (Statusset[position].equals("完了")) {
@@ -61,20 +55,16 @@ internal class MyAdapter     //リストに表示するデータを受け取る
             paint.isAntiAlias = true
         }
 
-        //×ボタン押下時の処理　あとで完成させる（API接続完了後）
+        //×ボタン押下時の処理
         holder.closebutton.setOnClickListener(View.OnClickListener() {
-            //ここにAPIでDeletetextの処理を書く
-
             //送信するリクエストを指定
             val jsonSendData = "{\"ToDoId\":" + position + "}"
             //APIを呼び出すメソッドを実行
-            //val ma = APIConnect()
             try {
                 APIConnect().ConnectAPI("DeletetextToDo", jsonSendData)
-                //holder.todotext.text = position.toString()
-
-                //RecyclerViewの表示（SQLではない）
+                //×ボタンを押した行を削除（RecyclerViewの表示上）
                 myDataset.removeAt(position)
+                //RecyclerViewの再表示通知送信（SQLを操作するわけではない）
                 notifyDataSetChanged()
 
             } catch (e: Exception) {
@@ -82,7 +72,7 @@ internal class MyAdapter     //リストに表示するデータを受け取る
                 val stringWriter = StringWriter()
                 e.printStackTrace(PrintWriter(stringWriter))
                 val stackTrace = stringWriter.toString()
-                holder.todotext.text = stackTrace
+                println(stackTrace)
             }
         })
     }

@@ -8,24 +8,28 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
         android:orientation="horizontal"
+        android:background="@drawable/layout_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <TextView
             android:id="@+id/LayouttextView"
-            android:layout_width="260dp"
+            android:layout_width="298dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
             android:text="TextView"
-            android:textSize="14sp" />
+            android:textSize="20sp" />
 
         <ImageButton
             android:id="@+id/closeButton"
-            android:layout_width="0dp"
+            android:layout_width="75dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_baseline_close_24" />
